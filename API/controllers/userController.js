@@ -1,7 +1,7 @@
-const User = require('../models/users') 
-require('dotenv').config()
+const User = require('../models/userSchema') 
 
 exports.createUser = async (req, res) => {
+    try{
     let userExist = await User.findOne({email: req.body.email})
     if (userExist) {
         return res.json({
@@ -10,10 +10,7 @@ exports.createUser = async (req, res) => {
         })
 
     } else {
-        let {names, email, country} = req.body
-        let newUser = new User({
-            names, email, country
-        })
+        let newUser = new User(req.body)
 
         let data = await newUser.save()
         return res.json({
@@ -21,7 +18,15 @@ exports.createUser = async (req, res) => {
             userData: data
         })
     }
+}catch(err){
+    console.log(err)
+    return res.status({
+        msg: err.message,
+        status:500
+    })
 }
+}
+
 exports.getAllUser= async (req, res) => {
     let getUsers = await User.find({})
     return res.json({

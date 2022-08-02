@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
+
 const Schema = mongoose.Schema
+
 const userSchema = new Schema({
     "names": {
         type: String,
@@ -15,5 +17,15 @@ const userSchema = new Schema({
         type: String,
         require: true,
     },
+
+    "Phone": {
+        type: Number,
+        require: true,
+    },
+
+    "created_at": {
+        type: Date,
+        Default: Date.now
+    }
 })
 module.exports = mongoose.model("user", userSchema) 
